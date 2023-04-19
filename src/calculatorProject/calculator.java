@@ -22,7 +22,8 @@ public class calculator extends Application {
       "7", "8", "9", "+",
       "4", "5", "6", "-",
       "1", "2", "3", "x",
-      "C", "0", "=", "/"
+      "C", "0", "=", "/",
+      "√", "^"
    };
    // For computation
    private double result = 0;      // Result of computation
@@ -71,7 +72,13 @@ public class calculator extends Application {
             compute();
             lastOperator = '=';
             break;
-
+         case "√":
+        	 compute();
+        	 lastOperator = '√';
+        	 break;
+		/*
+		 * case "^": compute(); lastOperator = '^'; break;
+		 */
          // Clear button
          case "C":
             result = 0;
@@ -100,8 +107,20 @@ public class calculator extends Application {
          result /= inNum;
       } else if (lastOperator == '=') {
          // Keep the result for the next operation
+      }	else if (lastOperator == '√') {
+    	  result = Math.sqrt(inNum);
+    	 }	
+//		else if (lastOperator == '^') {
+//    	  result = Math.pow(inNum, 2);
+//      }
+      if((int) result == result)
+      {
+    	  tfDisplay.setText((int)result + "");
+    	  } 
+      else {
+    	  tfDisplay.setText(result + "");  
       }
-      tfDisplay.setText(result + "");
+      
    }
 
    // Setup the UI
@@ -129,7 +148,7 @@ public class calculator extends Application {
       }
 
       // Setup 16 Buttons and add to GridPane; and event handler
-      btns = new Button[16];
+      btns = new Button[18];
       for (int i = 0; i < btns.length; ++i) {
          btns[i] = new Button(btnLabels[i]);
          btns[i].setOnAction(handler);  // Register event handler
