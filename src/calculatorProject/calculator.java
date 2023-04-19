@@ -72,13 +72,18 @@ public class calculator extends Application {
             compute();
             lastOperator = '=';
             break;
+         // Operator for sqrt
          case "√":
         	 compute();
         	 lastOperator = '√';
         	 break;
-		/*
-		 * case "^": compute(); lastOperator = '^'; break;
-		 */
+		//OPerator for power functions
+        //TODO make this work with other powers than just 2
+		 case "^": 
+			 compute(); 
+			 lastOperator = '^'; 
+			 break;
+		 
          // Clear button
          case "C":
             result = 0;
@@ -109,10 +114,9 @@ public class calculator extends Application {
          // Keep the result for the next operation
       }	else if (lastOperator == '√') {
     	  result = Math.sqrt(inNum);
-    	 }	
-//		else if (lastOperator == '^') {
-//    	  result = Math.pow(inNum, 2);
-//      }
+      }	else if (lastOperator == '^') {
+    	  result = Math.pow(inNum, 2);
+      }
       if((int) result == result)
       {
     	  tfDisplay.setText((int)result + "");
@@ -133,7 +137,7 @@ public class calculator extends Application {
 
       // Setup a GridPane for 4x4 Buttons
       int numCols = 4;
-      int numRows = 4;
+      int numRows = 5;
       GridPane paneButton = new GridPane();
       paneButton.setPadding(new Insets(15, 0, 15, 0));  // top, right, bottom, left
       paneButton.setVgap(5);  // Vertical gap between nodes
@@ -164,7 +168,7 @@ public class calculator extends Application {
 
       // Set up scene and stage
       primaryStage.setScene(new Scene(root, 300, 300));
-      primaryStage.setTitle("JavaFX Calculator");
+      primaryStage.setTitle("Java Calculator V1.2");
       primaryStage.show();
    }
 
