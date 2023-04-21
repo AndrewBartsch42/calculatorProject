@@ -78,8 +78,7 @@ public class calculator extends Application {
         	 compute();
         	 lastOperator = '√';
         	 break;
-		//OPerator for power functions
-        //TODO make this work with other powers than just 2
+		//Operator for power functions
 		 case "^": 
 			 compute(); 
 			 lastOperator = '^'; 
@@ -124,7 +123,7 @@ public class calculator extends Application {
       }	else if (lastOperator == '√') {
     	  result = Math.sqrt(inNum);
       }	else if (lastOperator == '^') {
-    	  result = Math.pow(inNum, 2);
+    	  result = Math.pow(result, inNum);
       }
       if((int) result == result)
       {
