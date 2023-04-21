@@ -22,11 +22,12 @@ public class calculator extends Application {
       "7", "8", "9", "+",
       "4", "5", "6", "-",
       "1", "2", "3", "x",
-      "C", "0", "=", "/",
-      "√", "^"
+      "C", "0", "=", "÷",
+      "√", "^", "M+", "MR"
    };
    // For computation
    private double result = 0;      // Result of computation
+   private double mem;	//used to store the button
    private String inStr = "0";  // Input number as String
    // Previous operator: ' '(nothing), '+', '-', '*', '/', '='
    private char lastOperator = ' ';
@@ -83,8 +84,16 @@ public class calculator extends Application {
 			 compute(); 
 			 lastOperator = '^'; 
 			 break;
+
+		 case "MR":
+			 inStr = String.valueOf(mem);
+			 tfDisplay.setText(inStr);
+			 break;
 		 
-         // Clear button
+       //stores the instr to memory then goes to the clear case
+		 case "M+":
+			 mem = Double.parseDouble(inStr);
+			  // Clear button
          case "C":
             result = 0;
             inStr = "0";
@@ -98,7 +107,7 @@ public class calculator extends Application {
    // Perform computation on the previous result and the current input number,
    // based on the previous operator.
    private void compute() {
-      double inNum = Integer.parseInt(inStr);
+      double inNum = Double.parseDouble(inStr);
       inStr = "0";
       if (lastOperator == ' ') {
          result = inNum;
@@ -152,7 +161,7 @@ public class calculator extends Application {
       }
 
       // Setup 16 Buttons and add to GridPane; and event handler
-      btns = new Button[18];
+      btns = new Button[20];
       for (int i = 0; i < btns.length; ++i) {
          btns[i] = new Button(btnLabels[i]);
          btns[i].setOnAction(handler);  // Register event handler
