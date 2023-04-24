@@ -18,12 +18,14 @@ import javafx.geometry.Pos;
 public class calculator extends Application {
    private TextField tfDisplay;    // display textfield
    private Button[] btns;          // 16 buttons
-   private String[] btnLabels = {  // Labels of 16 buttons
+   private String[] btnLabels = {  // Labels of 24 buttons
       "7", "8", "9", "+",
       "4", "5", "6", "-",
       "1", "2", "3", "x",
-      "C", "0", "=", "÷",
-      "√", "^", "M+", "MR"
+      ".", "0", "=", "÷",
+      "C","\u2190","√", "^", 
+      "M+","M-", "MR", "MC" 
+      
    };
    // For computation
    private double result = 0;      // Result of computation
@@ -38,7 +40,8 @@ public class calculator extends Application {
       switch (currentBtnLabel) {
          // Number buttons
          case "0": case "1": case "2": case "3": case "4":
-         case "5": case "6": case "7": case "8": case "9":
+         case "5": case "6": case "7": case "8": case "9": 
+         case ".":
             if (inStr.equals("0")) {
                inStr = currentBtnLabel;  // no leading zero
             } else {
@@ -83,12 +86,18 @@ public class calculator extends Application {
 			 compute(); 
 			 lastOperator = '^'; 
 			 break;
-
+		 case "\u2190":
+			 String str = tfDisplay.getCharacters().toString();
+			 tfDisplay.setText(str.substring(0, str.length()-1));
+			 break;
 		 case "MR":
 			 inStr = String.valueOf(mem);
 			 tfDisplay.setText(inStr);
 			 break;
-		 
+		 case "MC":
+			 break;
+		 case "M-":
+			 break;
        //stores the instr to memory then goes to the clear case
 		 case "M+":
 			 mem = Double.parseDouble(inStr);
@@ -160,7 +169,7 @@ public class calculator extends Application {
       }
 
       // Setup 16 Buttons and add to GridPane; and event handler
-      btns = new Button[20];
+      btns = new Button[24];
       for (int i = 0; i < btns.length; ++i) {
          btns[i] = new Button(btnLabels[i]);
          btns[i].setOnAction(handler);  // Register event handler
