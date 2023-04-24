@@ -11,11 +11,13 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.Priority;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 
 public class calculator extends Application {
+   private Text memDisplay = new Text("Memory = 0.0");
    private TextField tfDisplay;    // display textfield
    private Button[] btns;          // 16 buttons
    private String[] btnLabels = {  // Labels of 24 buttons
@@ -25,8 +27,9 @@ public class calculator extends Application {
       ".", "0", "=", "÷",
       "C","\u2190","√", "^", 
       "M+","M-", "MR", "MC" 
-      
+     
    };
+   
    // For computation
    private double result = 0;      // Result of computation
    private double mem;	//used to store the button
@@ -93,14 +96,33 @@ public class calculator extends Application {
 		 case "MR":
 			 inStr = String.valueOf(mem);
 			 tfDisplay.setText(inStr);
+			 memDisplay.setText("Memory = " + mem);
 			 break;
 		 case "MC":
+			 mem = 0;
+			 memDisplay.setText("Memory = " + mem);
+			 result = 0;
+	         inStr = "0";
+	         lastOperator = ' ';
+	         tfDisplay.setText("0");
 			 break;
 		 case "M-":
+			 mem -= Double.parseDouble(inStr);
+			 memDisplay.setText("Memory = " + mem);
+			 result = 0;
+	         inStr = "0";
+	         lastOperator = ' ';
+	         tfDisplay.setText("0");
 			 break;
        //stores the instr to memory then goes to the clear case
 		 case "M+":
-			 mem = Double.parseDouble(inStr);
+			 mem += Double.parseDouble(inStr);
+			 memDisplay.setText("Memory = " + mem);
+			 result = 0;
+	         inStr = "0";
+	         lastOperator = ' ';
+	         tfDisplay.setText("0");
+	         break;
 			  // Clear button
          case "C":
             result = 0;
@@ -182,9 +204,10 @@ public class calculator extends Application {
       root.setPadding(new Insets(15, 15, 15, 15));  // top, right, bottom, left
       root.setTop(tfDisplay);     // Top zone contains the TextField
       root.setCenter(paneButton); // Center zone contains the GridPane of Buttons
+      root.setBottom(memDisplay);
 
       // Set up scene and stage
-      primaryStage.setScene(new Scene(root, 300, 300));
+      primaryStage.setScene(new Scene(root, 300, 270));
       primaryStage.setTitle("Java Calculator V1.2");
       primaryStage.show();
    }
