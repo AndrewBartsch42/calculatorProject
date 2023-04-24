@@ -208,7 +208,7 @@ public class calculator extends Application {
 
       // Set up scene and stage
       primaryStage.setScene(new Scene(root, 300, 270));
-      primaryStage.setTitle("Java Calculator V1.2");
+      primaryStage.setTitle("Java Calculator V1.3");
       primaryStage.show();
    }
 
