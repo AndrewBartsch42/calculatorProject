@@ -1,5 +1,7 @@
 package calculatorProject;
 
+import java.text.DecimalFormat;
+
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -26,20 +28,21 @@ public class calculator extends Application {
 	 */
 	private TextField tfDisplay;    
 	/**
-	 * 24 buttons
+	 * 30 buttons
 	 */
 	private Button[] btns;          
 	/**
-	 * Labels of 28 buttons
+	 * Labels of 30 buttons
 	 */
 	private String[] btnLabels = {  
 			"7", "8", "9", "+",
 			"4", "5", "6", "-",
 			"1", "2", "3", "x",
-			".", "0", "=", "÷",
+			".", "0", "=", "/",
 			"C","\u2190","\u221A", "^", 
 			"sin", "cos", "tan", "sec",
-			"M+","M-", "MR", "MC" 
+			"\u03C0", "(-)", "M+","M-", "MR", 
+			"MC" 
 
 	};
 
@@ -51,6 +54,10 @@ public class calculator extends Application {
 	 * used to store the memory value
 	 */
 	private double mem;	//
+	/*
+	 * pi in a double form
+	 */
+	private static Double pi = Math.PI;
 	/**
 	 * Input number as String
 	 */
@@ -60,9 +67,12 @@ public class calculator extends Application {
 	 * Previous operator: ' '(nothing), '+', '-', '*', '/', '='
 	 */
 	private char lastOperator = ' ';
-
+	/*
+	 * used to format the trig functions
+	 */
+	private static final DecimalFormat trig = new DecimalFormat("0.00");
 	/**
-	 * Event handler for all the 24 Buttons
+	 * Event handler for all the 30 Buttons
 	 */
 	EventHandler handler = evt -> {
 		String currentBtnLabel = ((Button)evt.getSource()).getText();
@@ -70,11 +80,25 @@ public class calculator extends Application {
 		// Number buttons
 		case "0": case "1": case "2": case "3": case "4":
 		case "5": case "6": case "7": case "8": case "9": 
-		case ".":
-			if (inStr.equals("0")) {
-				inStr = currentBtnLabel;  // no leading zero
+		case ".": case "\u03C0": case "(-)":
+			if(currentBtnLabel.equals("(-)")) {
+				inStr = "-" + inStr;
+			}
+
+		else if (inStr.equals("0")) {
+				if(currentBtnLabel.equals("\u03C0")) {
+					inStr = String.valueOf(pi);
+				}
+				else{
+					inStr = currentBtnLabel;  // no leading zero
+				}
 			} else {
-				inStr += currentBtnLabel; // append input digit
+				if(currentBtnLabel.equals("\u03C0")) {
+					inStr =  String.valueOf((Double.parseDouble(inStr)*pi));
+				}
+				else {
+					inStr += currentBtnLabel; // append input digit
+				}
 			}
 			tfDisplay.setText(inStr);
 			// Clear buffer if last operator is '='
@@ -108,7 +132,7 @@ public class calculator extends Application {
 			lastOperator = '=';
 			break;
 			/*
-			 *  Operator for sqrt
+			 *  Operator for square root
 			 */
 		case "√":
 			compute();
@@ -121,30 +145,30 @@ public class calculator extends Application {
 			compute(); 
 			lastOperator = '^'; 
 			break;
-		/*
-		 * sin function
-		 */
+			/*
+			 * sine function
+			 */
 		case "sin":
 			compute();
 			lastOperator = 's';
 			break;
-		/*
-		 * cosin function
-		 */
+			/*
+			 * cosine function
+			 */
 		case "cos":
 			compute();
 			lastOperator = 'c';
 			break;
-		/*
-		 * tangent function
-		 */
+			/*
+			 * tangent function
+			 */
 		case "tan":
 			compute();
 			lastOperator = 't';
 			break;
-		/*
-		 * secant function
-		 */
+			/*
+			 * secant function
+			 */
 		case "sec":
 			compute();
 			lastOperator = 'e';
@@ -258,16 +282,18 @@ public class calculator extends Application {
 			result = Math.sqrt(inNum);
 		} else if (lastOperator == '^') {
 			result = Math.pow(result, inNum);
+			
+			// next four else ifs have Double.parseDouble(trig.format(some trig funtion) this is to format it correctly so that it gives a more accurate answer
 		} else if (lastOperator == 's') {
-			result = Math.sin(inNum);
+			result = Double.parseDouble(trig.format(Math.sin(inNum)));
 		} else if (lastOperator == 'c') {
-			result = Math.cos(inNum);
+			result = Double.parseDouble(trig.format(Math.cos(inNum)));
 		} else if (lastOperator == 't') {
-			result = Math.tan(inNum);
+			result = Double.parseDouble(trig.format(Math.tan(inNum)));
 		} else if (lastOperator == 'e') {
-			result = 1/Math.cos(inNum);
+			result = Double.parseDouble(trig.format(1/Math.cos(inNum)));
 		} 
-	
+
 		if((int) result == result)
 		{
 			tfDisplay.setText((int)result + "");
@@ -306,7 +332,7 @@ public class calculator extends Application {
 		}
 
 		// Setup 28 Buttons and add to GridPane; and event handler
-		btns = new Button[28];
+		btns = new Button[30];
 		for (int i = 0; i < btns.length; ++i) {
 
 			btns[i] = new Button(btnLabels[i]);
@@ -329,7 +355,7 @@ public class calculator extends Application {
 		root.setBottom(memDisplay);
 
 		// Set up scene and stage
-		primaryStage.setScene(new Scene(root, 310, 300));
+		primaryStage.setScene(new Scene(root, 350, 330));
 		primaryStage.setTitle("Java Calculator V2");
 		primaryStage.show();
 	}
@@ -339,6 +365,7 @@ public class calculator extends Application {
 	 * launches the calculator
 	 */
 	public static void main(String[] args) {
+		
 		launch(args);
 	}
 }
