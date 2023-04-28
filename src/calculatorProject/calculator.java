@@ -30,7 +30,7 @@ public class calculator extends Application {
 	 */
 	private Button[] btns;          
 	/**
-	 * Labels of 24 buttons
+	 * Labels of 28 buttons
 	 */
 	private String[] btnLabels = {  
 			"7", "8", "9", "+",
@@ -38,6 +38,7 @@ public class calculator extends Application {
 			"1", "2", "3", "x",
 			".", "0", "=", "÷",
 			"C","\u2190","\u221A", "^", 
+			"sin", "cos", "tan", "sec",
 			"M+","M-", "MR", "MC" 
 
 	};
@@ -119,6 +120,34 @@ public class calculator extends Application {
 		case "^": 
 			compute(); 
 			lastOperator = '^'; 
+			break;
+		/*
+		 * sin function
+		 */
+		case "sin":
+			compute();
+			lastOperator = 's';
+			break;
+		/*
+		 * cosin function
+		 */
+		case "cos":
+			compute();
+			lastOperator = 'c';
+			break;
+		/*
+		 * tangent function
+		 */
+		case "tan":
+			compute();
+			lastOperator = 't';
+			break;
+		/*
+		 * secant function
+		 */
+		case "sec":
+			compute();
+			lastOperator = 'e';
 			break;
 			/*
 			 * operator for delete key
@@ -229,7 +258,16 @@ public class calculator extends Application {
 			result = Math.sqrt(inNum);
 		} else if (lastOperator == '^') {
 			result = Math.pow(result, inNum);
-		}
+		} else if (lastOperator == 's') {
+			result = Math.sin(inNum);
+		} else if (lastOperator == 'c') {
+			result = Math.cos(inNum);
+		} else if (lastOperator == 't') {
+			result = Math.tan(inNum);
+		} else if (lastOperator == 'e') {
+			result = 1/Math.cos(inNum);
+		} 
+	
 		if((int) result == result)
 		{
 			tfDisplay.setText((int)result + "");
@@ -267,8 +305,8 @@ public class calculator extends Application {
 			paneButton.getColumnConstraints().add(columns[i]);
 		}
 
-		// Setup 24 Buttons and add to GridPane; and event handler
-		btns = new Button[24];
+		// Setup 28 Buttons and add to GridPane; and event handler
+		btns = new Button[28];
 		for (int i = 0; i < btns.length; ++i) {
 
 			btns[i] = new Button(btnLabels[i]);
@@ -291,7 +329,7 @@ public class calculator extends Application {
 		root.setBottom(memDisplay);
 
 		// Set up scene and stage
-		primaryStage.setScene(new Scene(root, 300, 270));
+		primaryStage.setScene(new Scene(root, 310, 300));
 		primaryStage.setTitle("Java Calculator V2");
 		primaryStage.show();
 	}
